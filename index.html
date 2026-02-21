@@ -42,7 +42,7 @@ function sendShift() {
     return;
   }
 
-  fetch("https://shiftbot-production-f32e.up.railway.app/post_shift", {
+  fetch("/api/post_shift", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
