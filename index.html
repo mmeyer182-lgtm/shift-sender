@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shift Sender</title>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 40px;
+  text-align: center;
+}
+input {
+  width: 95%;
+  font-size: 20px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+button {
+  width: 100%;
+  font-size: 22px;
+  padding: 15px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 12px;
+}
+</style>
+</head>
+<body>
+
+<h2>Post Shift</h2>
+
+<input type="text" id="shiftInput" placeholder="Enter shift (ex: 3/25 7a-7p)">
+<button onclick="sendShift()">Send</button>
+
+<script>
+function sendShift() {
+  const shift = document.getElementById("shiftInput").value.trim();
+  if (!shift) {
+    alert("Please enter a shift before sending.");
+    return;
+  }
+
+  fetch("https://shiftbot-production-f32e.up.railway.app/post_shift", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: shift })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error("Network response was not ok");
+    alert("Shift sent!");
+    document.getElementById("shiftInput").value = "";
+  })
+  .catch(error => {
+    console.error(error);
+    alert("Error sending shift.");
+  });
+}
+</script>
+
+</body>
+</html>
